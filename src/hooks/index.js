@@ -2,6 +2,11 @@ import { useContext, useState } from "react";
 
 import { AuthContext } from "../providers/AuthProvider";
 import { login as userLogin } from "../api/index";
+import {
+  setItemInLocalStorage,
+  LOCALSTORAGE_TOKEN_KEY,
+  removeItemFromLocalStorage,
+} from "../utils";
 
 //custom hook for useContext
 export const useAuth = () => {
@@ -18,6 +23,13 @@ export const useProvideAuth = () => {
 
     if (response.success) {
       setUser(response.data.user);
+
+      //save the JWT recieved in local storage
+      setItemInLocalStorage(
+        LOCALSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
+
       return {
         success: true,
       };
@@ -30,6 +42,9 @@ export const useProvideAuth = () => {
   };
 
   const logout = () => {
+    //remove JWT from local storage when user logs out
+    removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+
     setUser(null);
   };
 
