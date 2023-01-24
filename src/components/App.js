@@ -1,34 +1,21 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { getPosts } from "../api/index";
+import { useAuth } from "../hooks";
 import { Home, Login } from "../pages/index";
-import Loader from "./Loader";
-import Navbar from "./Navbar";
+import { Loader, Navbar } from "./index";
+
+//this component will be rendered when the user visits an unknown path
+const Page404 = () => {
+  return <h1>404...PAGE NOT FOUND!</h1>;
+};
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
-  useEffect(() => {
-    //making a function and then calling it, because the callback function passed to useEffect has to be synchronous(so can't be async one)
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      console.log("response", response);
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-
-      setLoading(false); //even if response.success is false, we stop loading when fetch call completed
-    };
-
-    fetchPosts();
-  }, []);
-
-  //since the fetch call in useEffect wud be running asynchronously in the background after first render,
-  //we will show loader, and after fetch call completed, setLoading will set loading to false
-  //and then after setLoading, App component will be re-rendered and this time the App component will be rendered
-  if (loading) {
+  //auth.loading will be governed by the useEffect hook inside 'useProvideAuth' hook in '../hooks'
+  //when the state of 'loading' inside 'useProvideAuth' hook changes, since the <App /> in inside <AuthProvider> component,
+  //the whole App will be re rendered and hence the correct component (<app> or <Loader/>) will be rendered acc. to the value of auth.loading
+  if (auth.loading) {
     return <Loader />;
   }
 
@@ -38,8 +25,9 @@ function App() {
         {/* Navbar component is not inside Routes, so Navbar won't be remounted again when a link tag is clicked */}
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home posts={posts} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>
     </div>

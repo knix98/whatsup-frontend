@@ -1,8 +1,34 @@
-import styles from "../styles/home.module.css";
-import { Comment } from "../components";
+import { useState, useEffect } from "react";
 
-const Home = ({ posts }) => {
-  //destructured the props initially only
+import styles from "../styles/home.module.css";
+import { Comment, Loader } from "../components/index";
+import { getPosts } from "../api";
+
+const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    //making a function and then calling it, because the callback function passed to used effect has to be synchronous(so can't be async one)
+    const fetchPosts = async () => {
+      const response = await getPosts();
+      if (response.success) {
+        setPosts(response.data.posts);
+      }
+
+      setLoading(false); //even if response.success is false, we stop loading when fetch call completed
+    };
+
+    fetchPosts();
+  }, []);
+
+  //since the fetch call in useEffect wud be running asynchronously in the background after first render,
+  //we will show loader, and after fetch call completed, setLoading will set loading to false
+  //and then after setLoading, Home page will be re-rendered
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div className={styles.postsList}>
       {posts.map((post) => {
