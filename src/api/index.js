@@ -1,4 +1,4 @@
-import { API_URLS, LOCALSTORAGE_TOKEN_KEY } from "../utils/index";
+import { API_URLS, getFormBody, LOCALSTORAGE_TOKEN_KEY } from "../utils/index";
 
 const customFetch = async (url, { body, ...customConfig }) => {
   //LOCALSTORAGE_TOKEN_KEY is the key to getting the log-in token from local storage
@@ -24,7 +24,8 @@ const customFetch = async (url, { body, ...customConfig }) => {
 
   if (body) {
     //if body is present, then add it to the config as well
-    config.body = JSON.stringify(body);
+    //body is form body. We have to convert form body to urlencoded string
+    config.body = getFormBody(body);
   }
 
   try {
