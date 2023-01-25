@@ -4,6 +4,7 @@ const API_ROOT = "";
 export const API_URLS = {
   posts: (limit) => `${API_ROOT}/posts?limit=${limit}`,
   login: () => `${API_ROOT}/users/login`,
+  signup: () => `${API_ROOT}/users/signup`,
 };
 
 //this key will be used to store the token in local-storage, when a user logs in

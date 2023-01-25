@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 
 import styles from "../styles/navbar.module.css";
+import { useAuth } from "../hooks";
 
 const Navbar = () => {
+  const auth = useAuth();
+
   return (
     <div className={styles.nav}>
       <div className={styles.leftDiv}>
@@ -15,28 +18,36 @@ const Navbar = () => {
       </div>
 
       <div className={styles.rightNav}>
-        <div className={styles.user}>
-          <Link to="/">
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
-              alt=""
-              className={styles.userDp}
-            />
-          </Link>
-          <span>Aakash</span>
-        </div>
+        {/* if auth.user is not null, means user is logged in, then only show the name of user */}
+        {auth.user && (
+          <div className={styles.user}>
+            <a href="/">
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+                alt=""
+                className={styles.userDp}
+              />
+            </a>
+            <span>{auth.user.name}</span>
+          </div>
+        )}
 
         <div className={styles.navLinks}>
           <ul>
-            <li>
-              <Link to="/login">Log in</Link>
-            </li>
-            <li>
-              <Link to="/">Log out</Link>
-            </li>
-            <li>
-              <Link to="/">Register</Link>
-            </li>
+            {auth.user ? (
+              <>
+                <li onClick={auth.logout}>Log out</li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Log in</Link>
+                </li>
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
