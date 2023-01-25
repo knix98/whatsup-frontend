@@ -18,7 +18,8 @@ export const useAuth = () => {
 
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //this 'loading' state is for the first time only whenever AuthProvider component mounts
+  //and wud always remain false after the useEffect does its job after the first monuting(see below, useEffect sets loading to false)
 
   //this useEffect will ensure that whenever user refreshes the page, and
   //hence the whole app renders again, then the user which was already logged in,
