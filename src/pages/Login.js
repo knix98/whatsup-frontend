@@ -41,6 +41,7 @@ const Login = () => {
             setEmail(e.target.value);
           }}
           required
+          autoComplete="on"
         />
       </div>
 

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { useAuth } from "../hooks";
-import { Home, Login, Signup } from "../pages/index";
+import { Home, Login, Signup, Settings } from "../pages/index";
 import { Loader, Navbar } from "./index";
 
 //this component will be rendered when the user visits an unknown path
@@ -28,6 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>

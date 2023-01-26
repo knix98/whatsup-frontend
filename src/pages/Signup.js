@@ -60,6 +60,7 @@ const Signup = () => {
         />
       </div>
       <div className={styles.field}>
+        {/* autoComplete="new-password" below will prevent the browser from accidentally filling in an existing password*/}
         <input
           placeholder="Email"
           type="email"
