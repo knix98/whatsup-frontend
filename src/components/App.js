@@ -1,8 +1,23 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import { useAuth } from "../hooks";
 import { Home, Login, Signup, Settings } from "../pages/index";
 import { Loader, Navbar } from "./index";
+
+// made a custom PrivateRoute component that will render the appropriate page acc. to whether user is logged in or not
+const PrivateRoute = () => {
+  const auth = useAuth(); // determine if authorized, from context
+
+  // If authorized, return an outlet that will render child elements
+  // If not, return element that will navigate to login page
+  return auth.user ? <Outlet /> : <Navigate to="/login" replace={true} />;
+};
 
 //this component will be rendered when the user visits an unknown path
 const Page404 = () => {
@@ -28,7 +43,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<PrivateRoute />}>
+            <Route path="/settings" element={<Settings />} />
+          </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>

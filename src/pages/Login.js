@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import styles from "../styles/login.module.css";
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loggingIn, setLoggingIn] = useState(false); //wud be set to true while request is sent for logging in
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,13 +22,21 @@ const Login = () => {
     setLoggingIn(true);
     const response = await auth.login(email, password);
     setLoggingIn(false);
+    setPassword(""); //erase the password from the <input> when the logging in api call completed
 
     if (response.success) {
-      return toast.success("Successfully logged in!");
+      navigate("/"); //this code will make the '/' page mount and 'login' page unmount
+      return toast.success("Logged in successfully!");
     } else {
       return toast.error(response.message);
     }
   };
+
+  if (auth.user) {
+    //if the user is already logged in redirect the page to home page
+    toast.error("You are already logged in");
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>

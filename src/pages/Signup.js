@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { useAuth } from "../hooks";
@@ -37,7 +37,6 @@ const Signup = () => {
 
     if (response.success) {
       navigate("/login"); //this code will make the 'login' page mount and 'register' page unmount
-      setSigningUp(false);
       return toast.success("User registered successfully, please login now");
     } else {
       toast.error(response.message);
@@ -45,6 +44,14 @@ const Signup = () => {
 
     setSigningUp(false);
   };
+
+  if (auth.user) {
+    //if the user is already logged in redirect the page to home page
+    toast.error("Logout first, and then register a new user");
+    //using replace={true}, '/' page will replace /register page in history stack
+    //hence if user clicks back button also, then also he will not go back to /register page
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <form className={styles.loginForm} onSubmit={handleFormSubmit}>
@@ -71,7 +78,7 @@ const Signup = () => {
       </div>
       <div className={styles.field}>
         <input
-          placeholder="Confirm password"
+          placeholder="Password"
           type="password"
           required
           value={password}
@@ -80,7 +87,7 @@ const Signup = () => {
       </div>
       <div className={styles.field}>
         <input
-          placeholder="Password"
+          placeholder="Confirm Password"
           type="password"
           required
           value={confirmPassword}

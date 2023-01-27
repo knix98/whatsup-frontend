@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 import styles from "../styles/navbar.module.css";
 import { useAuth } from "../hooks";
 
 const Navbar = () => {
   const auth = useAuth();
+
+  const logOut = () => {
+    auth.logout();
+    return toast.success("Logged out successfully!");
+  };
 
   return (
     <div className={styles.nav}>
@@ -36,7 +42,7 @@ const Navbar = () => {
           <ul>
             {auth.user ? (
               <>
-                <li onClick={auth.logout}>Log out</li>
+                <li onClick={logOut}>Log out</li>
               </>
             ) : (
               <>
