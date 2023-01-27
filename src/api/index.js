@@ -76,3 +76,10 @@ export const register = (name, email, password, confirmPassword) => {
     body: { name, email, password, confirm_password: confirmPassword },
   });
 };
+
+export const editProfile = (userId, name, password, confirmPassword) => {
+  return customFetch(API_URLS.editUser(), {
+    method: "PUT",
+    body: { id: userId, name, password, confirm_password: confirmPassword },
+  });
+};

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
@@ -11,7 +12,39 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingForm, setSavingForm] = useState(false); //signifying whether the saving updated profile info request completed or not
 
-  const updateProfile = () => {};
+  const updateProfile = async () => {
+    setSavingForm(true);
+
+    let error = false;
+    if (!name || !password || !confirmPassword) {
+      toast.error("Please fill all the fields");
+      error = true;
+    } else if (password !== confirmPassword) {
+      toast.error("Password and confirm password does not match");
+      error = true;
+    }
+
+    if (error) return setSavingForm(false);
+
+    const response = await auth.updateUser(
+      auth.user._id,
+      name,
+      password,
+      confirmPassword
+    );
+
+    if (response.success) {
+      setEditMode(false);
+      //resetting the password and confirmPassword
+      setPassword("");
+      setConfirmPassword("");
+      toast.success("User updated successfully!");
+    } else {
+      toast.error(response.message);
+    }
+
+    setSavingForm(false);
+  };
 
   return (
     <div className={styles.settings}>
@@ -70,6 +103,7 @@ const Settings = () => {
             <button
               className={`button ${styles.saveBtn}`}
               onClick={updateProfile}
+              disabled={savingForm}
             >
               {savingForm ? "Saving profile..." : "Save profile"}
             </button>
