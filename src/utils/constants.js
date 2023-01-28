@@ -7,6 +7,7 @@ export const API_URLS = {
   login: () => `${API_ROOT}/users/login`,
   signup: () => `${API_ROOT}/users/signup`,
   editUser: () => `${API_ROOT}/users/edit`,
+  userInfo: (userId) => `${API_ROOT}/users/${userId}`,
 };
 
 //this key will be used to store the token in local-storage, when a user logs in

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "../styles/home.module.css";
@@ -43,7 +44,12 @@ const Home = () => {
                 />
                 <div>
                   {/* for seeing the post object, look at the json response coming after getPosts() in the network tab of developer tools */}
-                  <span className={styles.postAuthor}>{post.user.name}</span>
+                  <Link
+                    to={`/user/${post.user._id}`}
+                    className={styles.postAuthor}
+                  >
+                    {post.user.name}
+                  </Link>
                   <span className={styles.postTime}>a minute ago</span>
                 </div>
               </div>

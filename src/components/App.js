@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { useAuth } from "../hooks";
-import { Home, Login, Signup, Settings } from "../pages/index";
+import { Home, Login, Signup, Settings, UserProfile } from "../pages/index";
 import { Loader, Navbar } from "./index";
 
 // made a custom PrivateRoute component that will render the appropriate page acc. to whether user is logged in or not
@@ -43,9 +43,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+
           <Route path="/settings" element={<PrivateRoute />}>
             <Route path="/settings" element={<Settings />} />
           </Route>
+          <Route path="/user/:userId" element={<PrivateRoute />}>
+            <Route path="/user/:userId" element={<UserProfile />} />
+          </Route>
+
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Router>
