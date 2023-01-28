@@ -2,12 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import jwt from "jwt-decode";
 
 import { AuthContext } from "../providers/AuthProvider";
-import {
-  editProfile,
-  login as userLogin,
-  register,
-  fetchUserFriends,
-} from "../api/index";
+import { editProfile, login as userLogin, register } from "../api/index";
 import {
   setItemInLocalStorage,
   LOCALSTORAGE_TOKEN_KEY,
@@ -30,33 +25,14 @@ export const useProvideAuth = () => {
   //hence the whole app renders again, then the user which was already logged in,
   //doesn't get lost
   useEffect(() => {
-    const getUser = async () => {
-      const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
 
-      if (userToken) {
-        const user = jwt(userToken);
+    if (userToken) {
+      const user = jwt(userToken);
+      setUser(user);
+    }
 
-        //the user decoded from the jwt doesn't contain friends array,
-        //so we need to add user-friends also to the user object decoded from the jwt above
-        const response = await fetchUserFriends();
-
-        let friends = [];
-
-        if (response.success) {
-          friends = response.data.friends;
-        }
-
-        //adding the friends array to the user object, and setting as user-state
-        setUser({
-          ...user,
-          friends,
-        });
-      }
-
-      setLoading(false);
-    };
-
-    getUser();
+    setLoading(false);
   }, []);
 
   const login = async (email, password) => {

@@ -35,14 +35,14 @@ const UserProfile = () => {
 
   //function to check whether the user whose profile page we have visited, is a friend of logged in user or not
   const checkIfUserIsAFriend = () => {
-    //friends is array of friendships of auth.user
+    //friends is array of friends of auth.user
     const friends = auth.user.friends;
 
     //means there are no friends of auth.user, so return false
-    if (!friends) return false;
+    if (friends.length == 0) return false;
 
     //getting all the friend's(friends of auth.user) ids
-    const friendIds = friends.map((friend) => friend.to_user._id);
+    const friendIds = friends.map((friend) => friend._id);
     //checking whether the userId(id of user whose profile page we are on) is a friend of logged in user or not
     const index = friendIds.indexOf(userId);
 
