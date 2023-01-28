@@ -97,6 +97,19 @@ export const useProvideAuth = () => {
     }
   };
 
+  //function to add/remove a friend from user.friends array, depending upon
+  //whether 'addFriend' passed as argument is true/false
+  const updateUserFriends = (addFriend, friend) => {
+    if (addFriend) {
+      setUser({
+        ...user,
+        //a 'friend' inside 'friends' array contains from_user: auth.user, to_user: 1 of the friends of auth.user
+        friends: [...user.friends, friend],
+      });
+      return;
+    }
+  };
+
   const logout = () => {
     //remove JWT from local storage when user logs out
     removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
@@ -110,6 +123,7 @@ export const useProvideAuth = () => {
     login,
     logout,
     updateUser,
+    updateUserFriends,
     signup,
   };
 };

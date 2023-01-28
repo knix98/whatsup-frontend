@@ -8,6 +8,8 @@ export const API_URLS = {
   signup: () => `${API_ROOT}/users/signup`,
   editUser: () => `${API_ROOT}/users/edit`,
   userInfo: (userId) => `${API_ROOT}/users/${userId}`,
+  createFriendship: (userId) =>
+    `${API_ROOT}/friendship/create_friendship?user_id=${userId}`,
 };
 
 //this key will be used to store the token in local-storage, when a user logs in

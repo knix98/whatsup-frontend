@@ -5,11 +5,12 @@ import { toast } from "react-hot-toast";
 import { Loader } from "../components";
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
-import { fetchUserProfile } from "../api";
+import { addFriend, fetchUserProfile } from "../api";
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //for initial page loading when userProfile page mounted for first time
+  const [requestInProgress, setRequestInProgress] = useState(false); // for ongoing api request when adding/removing a friend. Will be used for add/remove friend button
   const { userId } = useParams(); //getting the userId from the params of url of this page(/user/:userId)
   const navigate = useNavigate();
   const auth = useAuth();
@@ -53,6 +54,24 @@ const UserProfile = () => {
     return false;
   };
 
+  const handleRemoveFriendClick = () => {};
+
+  const handleAddFriendClick = async () => {
+    setRequestInProgress(true);
+
+    const response = await addFriend(userId);
+
+    if (response.success) {
+      const { friend } = response.data;
+
+      auth.updateUserFriends(true, friend);
+      toast.success("Friend added successfully!");
+    } else {
+      toast.error(response.message);
+    }
+    setRequestInProgress(false);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -79,9 +98,21 @@ const UserProfile = () => {
 
       <div className={styles.btnGrp}>
         {checkIfUserIsAFriend() ? (
-          <button className={`button ${styles.saveBtn}`}>Remove friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleRemoveFriendClick}
+            disabled={requestInProgress}
+          >
+            {requestInProgress ? "Removing friend..." : "Remove friend"}
+          </button>
         ) : (
-          <button className={`button ${styles.saveBtn}`}>Add friend</button>
+          <button
+            className={`button ${styles.saveBtn}`}
+            onClick={handleAddFriendClick}
+            disabled={requestInProgress}
+          >
+            {requestInProgress ? "Adding friend..." : "Add friend"}
+          </button>
         )}
       </div>
     </div>
