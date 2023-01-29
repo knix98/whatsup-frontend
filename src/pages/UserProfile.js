@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { Loader } from "../components";
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
-import { addFriend, fetchUserProfile } from "../api";
+import { addFriend, removeFriend, fetchUserProfile } from "../api";
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -40,7 +40,7 @@ const UserProfile = () => {
     const friends = auth.user.friends;
 
     //means there are no friends of auth.user, so return false
-    if (friends.length == 0) return false;
+    if (friends.length === 0) return false;
 
     //getting all the friend's(friends of auth.user) ids
     const friendIds = friends.map((friend) => friend._id);
@@ -54,7 +54,25 @@ const UserProfile = () => {
     return false;
   };
 
-  const handleRemoveFriendClick = () => {};
+  const handleRemoveFriendClick = async () => {
+    setRequestInProgress(true);
+
+    const response = await removeFriend(userId);
+
+    if (response.success) {
+      //find the friend to remove from auth.user.friends array
+      const removedFriends = auth.user.friends.filter(
+        (friend) => friend._id === userId
+      );
+
+      // .filter wud return a removedFriends array containing only 1 friend (that is the friend to be removed)
+      auth.updateUserFriends(false, removedFriends[0]);
+      toast.success("Friend removed successfully!");
+    } else {
+      toast.error(response.message);
+    }
+    setRequestInProgress(false);
+  };
 
   const handleAddFriendClick = async () => {
     setRequestInProgress(true);
