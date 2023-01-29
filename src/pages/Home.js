@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "../styles/home.module.css";
-import { Comment, Loader, FriendsList } from "../components/index";
+import { Comment, Loader, FriendsList, CreatePost } from "../components/index";
 import { getPosts } from "../api";
 import { useAuth } from "../hooks";
 

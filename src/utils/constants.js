@@ -4,6 +4,7 @@ const API_ROOT = "";
 export const API_URLS = {
   posts: (limit) => `${API_ROOT}/posts?limit=${limit}`,
   // posts: (limit) => `${API_ROOT}/posts/getposts?limit=${limit}`,
+  createPost: () => `${API_ROOT}/posts/create`,
   login: () => `${API_ROOT}/users/login`,
   signup: () => `${API_ROOT}/users/signup`,
   editUser: () => `${API_ROOT}/users/edit`,
