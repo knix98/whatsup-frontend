@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import styles from "../styles/home.module.css";
-import { Comment, Loader } from "../components/index";
+import { Comment, Loader, FriendsList } from "../components/index";
 import { getPosts } from "../api";
+import { useAuth } from "../hooks";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     //making a function and then calling it, because the callback function passed to used effect has to be synchronous(so can't be async one)
