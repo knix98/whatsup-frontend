@@ -5,11 +5,12 @@ import { toast } from "react-hot-toast";
 import { Comment } from "./index";
 import styles from "../styles/home.module.css";
 import { usePosts } from "../hooks";
-import { createComment } from "../api";
+import { createComment, toggleLike } from "../api";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [creatingComment, setCreatingComment] = useState(false);
+  const [postLikes, setPostLikes] = useState(post.likes.length);
   const posts = usePosts();
 
   const handleAddComment = async (e) => {
@@ -34,6 +35,22 @@ const Post = ({ post }) => {
     }
   };
 
+  const handlePostLikeClick = async () => {
+    const response = await toggleLike(post._id, "Post");
+
+    if (response.success) {
+      if (response.data.deleted) {
+        //means like was removed
+        setPostLikes((likes) => likes - 1);
+      } else {
+        //means like was added
+        setPostLikes((likes) => likes + 1);
+      }
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   return (
     <div className={styles.postWrapper}>
       <div className={styles.postHeader}>
@@ -44,13 +61,6 @@ const Post = ({ post }) => {
           />
           <div>
             {/* for seeing the post object, look at the json response coming after getPosts() in the network tab of developer tools */}
-            {/* <Link
-                    to={`/user/${post.user._id}`}
-                    state={{ user: post.user }}
-                    className={styles.postAuthor}
-                  >
-                    {post.user.name}
-                  </Link> */}
             <Link to={`/user/${post.user._id}`} className={styles.postAuthor}>
               {post.user.name}
             </Link>
@@ -62,11 +72,13 @@ const Post = ({ post }) => {
 
         <div className={styles.postActions}>
           <div className={styles.postLike}>
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/889/889140.png"
-              alt="likes-icon"
-            />
-            <span>{post.likes.length}</span>
+            <button onClick={handlePostLikeClick}>
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/889/889140.png"
+                alt="likes-icon"
+              />
+            </button>
+            <span>{postLikes}</span>
           </div>
 
           <div className={styles.postCommentsIcon}>

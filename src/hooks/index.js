@@ -152,7 +152,7 @@ export const useProvidePosts = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await getPosts();
+      const response = await getPosts(10);
 
       if (response.success) {
         setPosts(response.data.posts);

@@ -49,19 +49,19 @@ const customFetch = async (url, { body, ...customConfig }) => {
   }
 };
 
-// export const getPosts = (limit) => {
-//   return customFetch(API_URLS.posts(limit), {
-//     method: "GET",
-//   });
-// };
-export const getPosts = (page = 1, limit = 5) => {
-  return customFetch(
-    "https://codeial.codingninjas.com:8000/api/v2/posts?page=1&limit=5",
-    {
-      method: "GET",
-    }
-  );
+export const getPosts = (limit) => {
+  return customFetch(API_URLS.posts(limit), {
+    method: "GET",
+  });
 };
+// export const getPosts = (page = 1, limit = 5) => {
+//   return customFetch(
+//     "https://codeial.codingninjas.com:8000/api/v2/posts?page=1&limit=5",
+//     {
+//       method: "GET",
+//     }
+//   );
+// };
 
 export const login = (email, password) => {
   return customFetch(API_URLS.login(), {
@@ -111,12 +111,18 @@ export const addPost = (content) => {
   });
 };
 
-export const createComment = async (content, postId) => {
+export const createComment = (content, postId) => {
   return customFetch(API_URLS.createComment(), {
     method: "POST",
     body: {
       post_id: postId,
       content,
     },
+  });
+};
+
+export const toggleLike = (itemId, itemType) => {
+  return customFetch(API_URLS.toggleLike(itemId, itemType), {
+    method: "POST",
   });
 };
