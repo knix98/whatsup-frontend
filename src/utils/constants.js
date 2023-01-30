@@ -13,6 +13,7 @@ export const API_URLS = {
     `${API_ROOT}/friendship/create_friendship?user_id=${userId}`,
   removeFriend: (userId) =>
     `${API_ROOT}/friendship/remove_friendship?user_id=${userId}`,
+  createComment: () => `${API_ROOT}/comments/create`,
 };
 
 //this key will be used to store the token in local-storage, when a user logs in
