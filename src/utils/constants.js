@@ -18,4 +18,4 @@ export const API_URLS = {
 };
 
 //this key will be used to store the token in local-storage, when a user logs in
-export const LOCALSTORAGE_TOKEN_KEY = "__whatsup_token__";
+export const SESSIONSTORAGE_TOKEN_KEY = "__whatsup_token__";

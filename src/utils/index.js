@@ -3,7 +3,7 @@
 export * from "./constants";
 
 // 3 helper functions to add, get, remove items from local storage
-export const setItemInLocalStorage = (key, value) => {
+export const setItemInSessionStorage = (key, value) => {
   if (!key || !value) {
     return console.error("Can not store in Local Storage");
   }
@@ -11,23 +11,23 @@ export const setItemInLocalStorage = (key, value) => {
   const valueToStore =
     typeof value !== "string" ? JSON.stringify(value) : value;
 
-  localStorage.setItem(key, valueToStore);
+  sessionStorage.setItem(key, valueToStore);
 };
 
-export const getItemFromLocalStorage = (key) => {
+export const getItemFromSessionStorage = (key) => {
   if (!key) {
     return console.error("Cannot get the value from Local Storage");
   }
 
-  return localStorage.getItem(key);
+  return sessionStorage.getItem(key);
 };
 
-export const removeItemFromLocalStorage = (key) => {
+export const removeItemFromSessionStorage = (key) => {
   if (!key) {
     return console.error("Cannot find the value in Local Storage");
   }
 
-  localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
 };
 
 //function to convert form data into urlencoded string

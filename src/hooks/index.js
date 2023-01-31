@@ -9,10 +9,10 @@ import {
   getPosts,
 } from "../api/index";
 import {
-  setItemInLocalStorage,
-  LOCALSTORAGE_TOKEN_KEY,
-  removeItemFromLocalStorage,
-  getItemFromLocalStorage,
+  setItemInSessionStorage,
+  SESSIONSTORAGE_TOKEN_KEY,
+  removeItemFromSessionStorage,
+  getItemFromSessionStorage,
 } from "../utils";
 
 //custom hook for useContext
@@ -30,7 +30,7 @@ export const useProvideAuth = () => {
   //hence the whole app renders again, then the user which was already logged in,
   //doesn't get lost
   useEffect(() => {
-    const userToken = getItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    const userToken = getItemFromSessionStorage(SESSIONSTORAGE_TOKEN_KEY);
 
     if (userToken) {
       const user = jwt(userToken);
@@ -47,8 +47,8 @@ export const useProvideAuth = () => {
       setUser(response.data.user);
 
       //save the JWT recieved in local storage
-      setItemInLocalStorage(
-        LOCALSTORAGE_TOKEN_KEY,
+      setItemInSessionStorage(
+        SESSIONSTORAGE_TOKEN_KEY,
         response.data.token ? response.data.token : null
       );
 
@@ -86,8 +86,8 @@ export const useProvideAuth = () => {
       setUser(response.data.user);
 
       //now change the jwt stored in local storage with the new jwt recieved(new jwt acc. to new user) in response
-      setItemInLocalStorage(
-        LOCALSTORAGE_TOKEN_KEY,
+      setItemInSessionStorage(
+        SESSIONSTORAGE_TOKEN_KEY,
         response.data.token ? response.data.token : null
       );
 
@@ -126,7 +126,7 @@ export const useProvideAuth = () => {
 
   const logout = () => {
     //remove JWT from local storage when user logs out
-    removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    removeItemFromSessionStorage(SESSIONSTORAGE_TOKEN_KEY);
 
     setUser(null);
   };

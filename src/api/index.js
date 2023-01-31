@@ -1,8 +1,12 @@
-import { API_URLS, getFormBody, LOCALSTORAGE_TOKEN_KEY } from "../utils/index";
+import {
+  API_URLS,
+  getFormBody,
+  SESSIONSTORAGE_TOKEN_KEY,
+} from "../utils/index";
 
 const customFetch = async (url, { body, ...customConfig }) => {
-  //LOCALSTORAGE_TOKEN_KEY is the key to getting the log-in token from local storage
-  const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
+  //SESSIONSTORAGE_TOKEN_KEY is the key to getting the log-in token from session storage
+  const token = window.sessionStorage.getItem(SESSIONSTORAGE_TOKEN_KEY);
 
   const headers = {
     //because our api server accepts only form-urlencoded content
@@ -10,7 +14,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
   };
 
   if (token) {
-    //if token exists in localStorage, then add it to the headers
+    //if token exists in sessionStorage, then add it to the headers
     headers.Authorization = `Bearer ${token}`;
   }
 
