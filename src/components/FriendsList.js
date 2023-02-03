@@ -11,11 +11,10 @@ const FriendsList = () => {
     <div className={styles.friendsList}>
       <div className={styles.header}>Friends</div>
 
-      {friends && friends.length === 0 && (
+      {friends && friends.length === 0 ? (
         <div className={styles.noFriends}>NO friends found!</div>
-      )}
-
-      {friends &&
+      ) : (
+        friends &&
         friends.map((friend) => (
           <div key={`friend-${friend._id}`}>
             <Link
@@ -34,7 +33,8 @@ const FriendsList = () => {
               <div className={styles.friendsName}>{friend.email}</div>
             </Link>
           </div>
-        ))}
+        ))
+      )}
     </div>
   );
 };

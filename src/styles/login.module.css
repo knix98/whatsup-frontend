@@ -39,7 +39,7 @@
 
 .field button {
   width: 100%;
-  margin-top: 20px;
+  margin: 20px 0;
   background: #ef7917;
   border-radius: 2px;
   color: #fff;
@@ -55,4 +55,18 @@
 
 .field button:disabled {
   cursor: not-allowed;
+}
+
+.registerLink {
+  color: #616161;
+  /* font-family: Open Sans; */
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  text-decoration: none;
+  margin: auto;
+}
+.registerLink:hover {
+  text-decoration: underline;
 }

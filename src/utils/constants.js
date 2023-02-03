@@ -8,6 +8,7 @@ export const API_URLS = {
   signup: () => `${API_ROOT}/users/signup`,
   editUser: () => `${API_ROOT}/users/edit`,
   userInfo: (userId) => `${API_ROOT}/users/${userId}`,
+  searchUsers: (searchText) => `${API_ROOT}/users/search?text=${searchText}`,
   createFriendship: (userId) =>
     `${API_ROOT}/friendship/create_friendship?user_id=${userId}`,
   removeFriend: (userId) =>

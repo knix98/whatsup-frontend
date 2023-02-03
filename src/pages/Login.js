@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import styles from "../styles/login.module.css";
@@ -73,6 +73,10 @@ const Login = () => {
           {loggingIn ? "Logging in..." : "Log In"}
         </button>
       </div>
+
+      <Link to="/register" className={styles.registerLink}>
+        New user? Register now!
+      </Link>
     </form>
   );
 };

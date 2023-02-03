@@ -150,19 +150,15 @@ export const useProvidePosts = () => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts(10);
+  const fetchPosts = async () => {
+    const response = await getPosts(10);
 
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
+    if (response.success) {
+      setPosts(response.data.posts);
+    }
 
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
+    setLoading(false);
+  };
 
   const addPostToState = (post) => {
     //add the newly created post to the top of the posts list
@@ -184,6 +180,7 @@ export const useProvidePosts = () => {
 
   return {
     data: posts,
+    fetchPosts,
     loading,
     addPostToState,
     addComment,

@@ -40,7 +40,11 @@ function App() {
         {/* Navbar component is not inside Routes, so Navbar won't be remounted again when a link tag is clicked */}
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
 

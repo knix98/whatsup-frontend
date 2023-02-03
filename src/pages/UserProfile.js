@@ -114,25 +114,27 @@ const UserProfile = () => {
         <div className={styles.fieldValue}>{user.name}</div>
       </div>
 
-      <div className={styles.btnGrp}>
-        {checkIfUserIsAFriend() ? (
-          <button
-            className={`button ${styles.saveBtn}`}
-            onClick={handleRemoveFriendClick}
-            disabled={requestInProgress}
-          >
-            {requestInProgress ? "Removing friend..." : "Remove friend"}
-          </button>
-        ) : (
-          <button
-            className={`button ${styles.saveBtn}`}
-            onClick={handleAddFriendClick}
-            disabled={requestInProgress}
-          >
-            {requestInProgress ? "Adding friend..." : "Add friend"}
-          </button>
-        )}
-      </div>
+      {auth.user._id !== userId && (
+        <div className={styles.btnGrp}>
+          {checkIfUserIsAFriend() ? (
+            <button
+              className={`button ${styles.saveBtn}`}
+              onClick={handleRemoveFriendClick}
+              disabled={requestInProgress}
+            >
+              {requestInProgress ? "Removing friend..." : "Remove friend"}
+            </button>
+          ) : (
+            <button
+              className={`button ${styles.saveBtn}`}
+              onClick={handleAddFriendClick}
+              disabled={requestInProgress}
+            >
+              {requestInProgress ? "Adding friend..." : "Add friend"}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
