@@ -14,6 +14,8 @@ export const API_URLS = {
   removeFriend: (userId) =>
     `${API_ROOT}/friendship/remove_friendship?user_id=${userId}`,
   createComment: () => `${API_ROOT}/comments/create`,
+  deleteComment: (commentId) =>
+    `${API_ROOT}/comments/delete?comment_id=${commentId}`,
   toggleLike: (itemId, itemType) =>
     `${API_ROOT}/likes/toggle?likeable_id=${itemId}&likeable_type=${itemType}`, // itemType is 'Post'/'Comment'
 };

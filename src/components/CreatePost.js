@@ -32,11 +32,7 @@ const CreatePost = () => {
 
   return (
     <div className={styles.createPost}>
-      <textarea
-        className={styles.addPost}
-        value={post}
-        onChange={(e) => setPost(e.target.value)}
-      />
+      <textarea value={post} onChange={(e) => setPost(e.target.value)} />
 
       <div>
         <button

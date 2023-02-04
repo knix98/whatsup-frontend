@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import TimeAgo from "react-timeago";
+import englishStrings from "react-timeago/lib/language-strings/en";
+import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 import { Comment } from "./index";
 import styles from "../styles/home.module.css";
@@ -12,6 +15,8 @@ const Post = ({ post }) => {
   const [creatingComment, setCreatingComment] = useState(false);
   const [postLikes, setPostLikes] = useState(post.likes.length);
   const posts = usePosts();
+
+  const formatter = buildFormatter(englishStrings);
 
   const handleAddComment = async (e) => {
     //its IMP to check whether creatingComment is false or not, so that if user repeatedly presses enter, we do not call addComment api again and again
@@ -65,8 +70,11 @@ const Post = ({ post }) => {
               {post.user.name}
             </Link>
 
-            <span className={styles.postTime}>a minute ago</span>
+            <span className={styles.postTime}>
+              <TimeAgo date={post.createdAt} formatter={formatter} />
+            </span>
           </div>
+          <button>Delete Post</button>
         </div>
         <div className={styles.postContent}>{post.content}</div>
 
@@ -86,7 +94,7 @@ const Post = ({ post }) => {
               src="https://cdn-icons-png.flaticon.com/128/3114/3114810.png"
               alt="comments-icon"
             />
-            <span>2</span>
+            <span>{post.comments.length}</span>
           </div>
         </div>
         <div className={styles.postCommentBox}>

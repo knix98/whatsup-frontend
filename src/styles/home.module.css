@@ -10,6 +10,7 @@
 }
 .postAvatar {
   display: flex;
+  position: relative;
 }
 .postAvatar > div {
   display: flex;
@@ -18,6 +19,17 @@
 }
 .postAvatar img {
   height: 40px;
+}
+.postAvatar button {
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  background: #eb2c14;
+  border-radius: 3px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 .postAvatar .postAuthor {
   color: #616161;
@@ -70,6 +82,10 @@
   display: flex;
   align-items: center;
 }
+.postLike button {
+  border: none;
+  background-color: #ffffff;
+}
 .postCommentsIcon {
   margin-left: 15px;
   display: flex;
@@ -81,6 +97,7 @@
 }
 .postCommentBox {
   padding: 10px 10px;
+  margin-top: 10px;
 }
 .postCommentBox input {
   border: 1px solid #e0e0e0;
@@ -104,6 +121,18 @@
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 14px;
+  position: relative;
+}
+.postCommentItem > button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 30px;
+  background: #eb2c14;
+  border-radius: 3px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 .postCommentHeader {
   display: flex;
@@ -121,24 +150,22 @@
   margin-left: 8px;
 }
 .postCommentLikes {
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 15px;
   color: #616161;
-  margin-left: 8px;
+  margin-left: 6px;
 }
 .postCommentContent {
   margin-top: 7px;
 }
-.postCommentsList .commentLike {
-  position: absolute;
-  right: 21px;
-  top: 13px;
-}
-.postCommentsList .commentLike img {
-  height: 20px;
-}
-.postCommentsList .commentLike img:hover {
+.postCommentContent button {
+  border: none;
+  padding: 0;
+  margin-left: 1px;
+  margin-top: 10px;
   cursor: pointer;
+}
+.postCommentContent button img {
+  height: 15px;
 }
 .home {
   padding: 20px 50px;

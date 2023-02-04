@@ -125,6 +125,12 @@ export const createComment = (content, postId) => {
   });
 };
 
+export const deleteComment = (commentId) => {
+  return customFetch(API_URLS.deleteComment(commentId), {
+    method: "DELETE",
+  });
+};
+
 export const toggleLike = (itemId, itemType) => {
   return customFetch(API_URLS.toggleLike(itemId, itemType), {
     method: "POST",
