@@ -167,6 +167,11 @@ export const useProvidePosts = () => {
     setPosts(newPosts);
   };
 
+  const deletePost = (postId) => {
+    const newPosts = posts.filter((post) => post._id !== postId);
+    setPosts(newPosts);
+  };
+
   const addComment = (comment, postId) => {
     const newPosts = posts.map((post) => {
       if (post._id === postId) {
@@ -197,6 +202,7 @@ export const useProvidePosts = () => {
     fetchPosts,
     loading,
     addPostToState,
+    deletePost,
     addComment,
     deleteComment,
   };

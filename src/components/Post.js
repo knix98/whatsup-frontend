@@ -7,14 +7,16 @@ import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 import { Comment } from "./index";
 import styles from "../styles/home.module.css";
-import { usePosts } from "../hooks";
-import { createComment, toggleLike } from "../api";
+import { usePosts, useAuth } from "../hooks";
+import { createComment, toggleLike, deletePost } from "../api";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
   const [creatingComment, setCreatingComment] = useState(false);
+  const [deletingPost, setDeletingPost] = useState(false);
   const [postLikes, setPostLikes] = useState(post.likes.length);
   const posts = usePosts();
+  const auth = useAuth();
 
   const formatter = buildFormatter(englishStrings);
 
@@ -38,6 +40,21 @@ const Post = ({ post }) => {
 
       setCreatingComment(false);
     }
+  };
+
+  const handleDeletePost = async () => {
+    setDeletingPost(true);
+
+    const response = await deletePost(post._id);
+
+    if (response.success) {
+      posts.deletePost(post._id);
+      toast.success("Post deleted successfully!");
+    } else {
+      toast.error(response.message);
+    }
+
+    setDeletingPost(false);
   };
 
   const handlePostLikeClick = async () => {
@@ -74,7 +91,11 @@ const Post = ({ post }) => {
               <TimeAgo date={post.createdAt} formatter={formatter} />
             </span>
           </div>
-          <button>Delete Post</button>
+          {post.user._id === auth.user._id && (
+            <button onClick={handleDeletePost} disabled={deletingPost}>
+              {deletingPost ? "Deleting..." : "Delete Post"}
+            </button>
+          )}
         </div>
         <div className={styles.postContent}>{post.content}</div>
 

@@ -115,6 +115,12 @@ export const addPost = (content) => {
   });
 };
 
+export const deletePost = (postId) => {
+  return customFetch(API_URLS.deletePost(postId), {
+    method: "DELETE",
+  });
+};
+
 export const createComment = (content, postId) => {
   return customFetch(API_URLS.createComment(), {
     method: "POST",
