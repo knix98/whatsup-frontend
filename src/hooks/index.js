@@ -7,6 +7,7 @@ import {
   login as userLogin,
   register,
   getPosts,
+  uploadPic,
 } from "../api/index";
 import {
   setItemInSessionStorage,
@@ -102,6 +103,38 @@ export const useProvideAuth = () => {
     }
   };
 
+  const changeUserPic = async (formData) => {
+    const response = await uploadPic(formData);
+
+    if (response.success) {
+      //set the state of user as the new user recieved in response
+      setUser(response.data.user);
+
+      //now change the jwt stored in local storage with the new jwt recieved(new jwt acc. to new user) in response
+      setItemInSessionStorage(
+        SESSIONSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
+
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  };
+
+  const fetchUserImg = async () => {
+    const res = await fetch(user.image);
+    const imageBlob = await res.blob();
+    const imageObjectURL = URL.createObjectURL(imageBlob);
+
+    return imageObjectURL;
+  };
+
   //function to add/remove a friend from user.friends array, depending upon
   //whether 'addFriend' passed as argument is true/false
   const updateUserFriends = (addFriend, friend) => {
@@ -137,6 +170,8 @@ export const useProvideAuth = () => {
     login,
     logout,
     updateUser,
+    changeUserPic,
+    fetchUserImg,
     updateUserFriends,
     signup,
   };
@@ -148,7 +183,6 @@ export const usePosts = () => {
 
 export const useProvidePosts = () => {
   const [posts, setPosts] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const fetchPosts = async () => {
     const response = await getPosts(10);
@@ -156,8 +190,6 @@ export const useProvidePosts = () => {
     if (response.success) {
       setPosts(response.data.posts);
     }
-
-    setLoading(false);
   };
 
   const addPostToState = (post) => {
@@ -200,7 +232,6 @@ export const useProvidePosts = () => {
   return {
     data: posts,
     fetchPosts,
-    loading,
     addPostToState,
     deletePost,
     addComment,

@@ -8,6 +8,7 @@ export const API_URLS = {
   login: () => `${API_ROOT}/users/login`,
   signup: () => `${API_ROOT}/users/signup`,
   editUser: () => `${API_ROOT}/users/edit`,
+  uploadPic: () => `${API_ROOT}/users/upload_pic`,
   userInfo: (userId) => `${API_ROOT}/users/${userId}`,
   searchUsers: (searchText) => `${API_ROOT}/users/search?text=${searchText}`,
   createFriendship: (userId) =>

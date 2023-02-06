@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import styles from "../styles/settings.module.css";
@@ -7,10 +7,25 @@ import { useAuth } from "../hooks";
 const Settings = () => {
   const auth = useAuth();
   const [editMode, setEditMode] = useState(false); //signifying whether user entered the update profile state
+  const [editPic, setEditPic] = useState(false);
+  const [file, setFile] = useState(null);
+  const [uploadingPic, setUploadingPic] = useState(false);
   const [name, setName] = useState(auth.user?.name ? auth.user.name : "");
+  const [userImg, setUserImg] = useState(
+    "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+  );
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingForm, setSavingForm] = useState(false); //signifying whether the saving updated profile info request completed or not
+
+  useEffect(() => {
+    const getUserImg = async function () {
+      const imgUrl = await auth.fetchUserImg();
+      setUserImg(imgUrl);
+    };
+
+    getUserImg();
+  }, [auth]);
 
   const updateProfile = async () => {
     setSavingForm(true);
@@ -33,11 +48,12 @@ const Settings = () => {
       confirmPassword
     );
 
+    setEditMode(false);
+    //resetting the password and confirmPassword
+    setPassword("");
+    setConfirmPassword("");
+
     if (response.success) {
-      setEditMode(false);
-      //resetting the password and confirmPassword
-      setPassword("");
-      setConfirmPassword("");
       toast.success("User updated successfully!");
     } else {
       toast.error(response.message);
@@ -46,13 +62,72 @@ const Settings = () => {
     setSavingForm(false);
   };
 
+  const removeEditPicMode = () => {
+    setFile(null);
+    setEditPic(false);
+  };
+
+  const uploadFile = async (e) => {
+    e.preventDefault();
+
+    if (file === null) {
+      toast.error('Please "Choose File" first');
+      return;
+    }
+
+    setUploadingPic(true);
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    const response = await auth.changeUserPic(formData);
+
+    if (response.success) {
+      toast.success("Profile pic changed successfully");
+    } else {
+      toast.error(response.message);
+    }
+
+    setFile(null);
+    setUploadingPic(false);
+    setEditPic(false);
+  };
+
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
-        <img
-          src="https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
-          alt=""
-        />
+        <img src={userImg} alt="Profile pic" />
+        {editPic ? (
+          <>
+            <form onSubmit={uploadFile}>
+              <input
+                type="file"
+                name="photo"
+                onChange={(e) => {
+                  setFile(e.target.files[0]);
+                }}
+              />
+              <button
+                type="submit"
+                className={styles.uploadPic}
+                disabled={uploadingPic}
+              >
+                {uploadingPic ? "Uploading..." : "Upload"}
+              </button>
+            </form>
+
+            <button
+              className={styles.uploadPic}
+              disabled={uploadingPic}
+              onClick={removeEditPicMode}
+            >
+              Go Back
+            </button>
+          </>
+        ) : (
+          <button className={styles.editPic} onClick={() => setEditPic(true)}>
+            Change Profile Pic
+          </button>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -105,7 +180,7 @@ const Settings = () => {
               onClick={updateProfile}
               disabled={savingForm}
             >
-              {savingForm ? "Saving profile..." : "Save profile"}
+              {savingForm ? "Saving..." : "Save profile info"}
             </button>
             <button
               className={`button ${styles.editBtn}`}
@@ -119,7 +194,7 @@ const Settings = () => {
             className={`button ${styles.editBtn}`}
             onClick={() => setEditMode(true)}
           >
-            Edit Profile
+            Edit Profile Info
           </button>
         )}
       </div>

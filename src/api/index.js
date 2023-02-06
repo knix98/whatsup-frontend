@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import {
   API_URLS,
   getFormBody,
@@ -86,6 +88,46 @@ export const editProfile = (userId, name, password, confirmPassword) => {
     method: "PUT",
     body: { id: userId, name, password, confirm_password: confirmPassword },
   });
+};
+
+export const uploadPic = async (formData) => {
+  // return customFetch(API_URLS.uploadPic(), {
+  //   method: "POST",
+  //   body: { photo: file },
+  //   // headers: { "content-type": undefined },
+  // });
+
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+
+  const token = window.sessionStorage.getItem(SESSIONSTORAGE_TOKEN_KEY);
+  if (token) {
+    //if token exists in sessionStorage, then add it to the headers
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  try {
+    const response = await axios.post(API_URLS.uploadPic(), formData, config);
+    const data = response.data; //axios response is already in json
+
+    if (data.success) {
+      return {
+        data: data.data,
+        success: true,
+      };
+    }
+
+    throw new Error(data.message); //if data.success was false
+  } catch (error) {
+    console.error("error");
+    return {
+      message: error.message,
+      success: false,
+    };
+  }
 };
 
 export const fetchUserProfile = (userId) => {

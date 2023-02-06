@@ -1,21 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Post, Loader, FriendsList, CreatePost } from "../components/index";
 import styles from "../styles/home.module.css";
 import { useAuth, usePosts } from "../hooks";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
   const auth = useAuth();
   const posts = usePosts();
 
   useEffect(() => {
-    posts.fetchPosts();
-  }, []);
+    const getPosts = async function () {
+      await posts.fetchPosts();
+      setLoading(false);
+    };
+
+    getPosts();
+  }, [posts]);
 
   //since the fetch call in useEffect (inside useProvidePosts hook) wud be running asynchronously in the background after first render,
   //we will show loader, and after fetch call completed, setLoading will set loading to false
   //and then after setLoading, Home page will be re-rendered
-  if (posts.loading) {
+  if (loading) {
     return <Loader />;
   }
 
