@@ -127,14 +127,6 @@ export const useProvideAuth = () => {
     }
   };
 
-  const fetchUserImg = async () => {
-    const res = await fetch(user.image);
-    const imageBlob = await res.blob();
-    const imageObjectURL = URL.createObjectURL(imageBlob);
-
-    return imageObjectURL;
-  };
-
   //function to add/remove a friend from user.friends array, depending upon
   //whether 'addFriend' passed as argument is true/false
   const updateUserFriends = (addFriend, friend) => {
@@ -171,7 +163,6 @@ export const useProvideAuth = () => {
     logout,
     updateUser,
     changeUserPic,
-    fetchUserImg,
     updateUserFriends,
     signup,
   };

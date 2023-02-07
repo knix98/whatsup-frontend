@@ -98,8 +98,12 @@ const UserProfile = () => {
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
         <img
-          src="https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
-          alt=""
+          src={
+            user.image
+              ? user.image
+              : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+          }
+          alt="Profile pic"
         />
       </div>
 

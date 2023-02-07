@@ -78,7 +78,11 @@ const Post = ({ post }) => {
       <div className={styles.postHeader}>
         <div className={styles.postAvatar}>
           <img
-            src="https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+            src={
+              post.user.image
+                ? post.user.image
+                : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+            }
             alt="user-pic"
           />
           <div>
@@ -96,6 +100,9 @@ const Post = ({ post }) => {
               {deletingPost ? "Deleting..." : "Delete Post"}
             </button>
           )}
+        </div>
+        <div className={styles.postImageContainer}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/495px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg" />
         </div>
         <div className={styles.postContent}>{post.content}</div>
 

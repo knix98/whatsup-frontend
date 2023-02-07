@@ -91,12 +91,6 @@ export const editProfile = (userId, name, password, confirmPassword) => {
 };
 
 export const uploadPic = async (formData) => {
-  // return customFetch(API_URLS.uploadPic(), {
-  //   method: "POST",
-  //   body: { photo: file },
-  //   // headers: { "content-type": undefined },
-  // });
-
   const config = {
     headers: {
       "content-type": "multipart/form-data",

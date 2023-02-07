@@ -16,7 +16,7 @@ const Home = () => {
     };
 
     getPosts();
-  }, [posts]);
+  }, []);
 
   //since the fetch call in useEffect (inside useProvidePosts hook) wud be running asynchronously in the background after first render,
   //we will show loader, and after fetch call completed, setLoading will set loading to false
@@ -36,7 +36,20 @@ const Home = () => {
           );
         })}
       </div>
-      {auth.user && <FriendsList />}
+
+      {auth.user && (
+        <div className={styles.friendsList}>
+          <div className={styles.header}>Friends</div>
+
+          {auth.user.friends.length === 0 ? (
+            <div className={styles.noFriends}>NO friends found!</div>
+          ) : (
+            auth.user.friends.map((friend) => (
+              <FriendsList friend={friend} key={`friend-${friend._id}`} />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };

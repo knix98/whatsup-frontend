@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 import styles from "../styles/settings.module.css";
@@ -11,21 +11,9 @@ const Settings = () => {
   const [file, setFile] = useState(null);
   const [uploadingPic, setUploadingPic] = useState(false);
   const [name, setName] = useState(auth.user?.name ? auth.user.name : "");
-  const [userImg, setUserImg] = useState(
-    "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
-  );
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [savingForm, setSavingForm] = useState(false); //signifying whether the saving updated profile info request completed or not
-
-  useEffect(() => {
-    const getUserImg = async function () {
-      const imgUrl = await auth.fetchUserImg();
-      setUserImg(imgUrl);
-    };
-
-    getUserImg();
-  }, [auth]);
 
   const updateProfile = async () => {
     setSavingForm(true);
@@ -95,7 +83,14 @@ const Settings = () => {
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
-        <img src={userImg} alt="Profile pic" />
+        <img
+          src={
+            auth.user.image
+              ? auth.user.image
+              : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
+          }
+          alt="Profile pic"
+        />
         {editPic ? (
           <>
             <form onSubmit={uploadFile}>
