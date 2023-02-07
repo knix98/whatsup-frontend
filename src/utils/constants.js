@@ -2,7 +2,7 @@ const API_ROOT = "";
 
 // all the values below are in a functional form, so that some values(required by the url) could be passed as arguments
 export const API_URLS = {
-  posts: (limit) => `${API_ROOT}/posts/getposts?limit=${limit}`,
+  posts: () => `${API_ROOT}/posts/getposts`,
   createPost: () => `${API_ROOT}/posts/create`,
   deletePost: (postId) => `${API_ROOT}/posts/delete?post_id=${postId}`,
   login: () => `${API_ROOT}/users/login`,

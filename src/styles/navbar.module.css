@@ -7,13 +7,14 @@
 }
 
 .logo {
-  color: #fff;
+  display: inline-block;
+  color: white;
   font-size: 35px;
+  font-weight: 500;
 }
 
 .logoIcons {
-  font-size: 40px;
-  color: #ece60e;
+  height: 40px;
 }
 
 .nav .userDp {

@@ -8,6 +8,7 @@ import {
   register,
   getPosts,
   uploadPic,
+  addPost,
 } from "../api/index";
 import {
   setItemInSessionStorage,
@@ -183,11 +184,24 @@ export const useProvidePosts = () => {
     }
   };
 
-  const addPostToState = (post) => {
-    //add the newly created post to the top of the posts list
-    const newPosts = [post, ...posts];
+  const addPostToState = async (formData) => {
+    const response = await addPost(formData);
 
-    setPosts(newPosts);
+    if (response.success) {
+      //add the newly created post to the top of the posts list
+      const newPosts = [response.data.post, ...posts];
+
+      setPosts(newPosts);
+
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
   };
 
   const deletePost = (postId) => {

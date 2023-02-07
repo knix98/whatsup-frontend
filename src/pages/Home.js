@@ -42,7 +42,7 @@ const Home = () => {
           <div className={styles.header}>Friends</div>
 
           {auth.user.friends.length === 0 ? (
-            <div className={styles.noFriends}>NO friends found!</div>
+            <div className={styles.noFriends}>No friends yet...</div>
           ) : (
             auth.user.friends.map((friend) => (
               <FriendsList friend={friend} key={`friend-${friend._id}`} />

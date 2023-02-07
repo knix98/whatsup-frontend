@@ -101,9 +101,11 @@ const Post = ({ post }) => {
             </button>
           )}
         </div>
-        <div className={styles.postImageContainer}>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/495px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg" />
-        </div>
+        {post.image && (
+          <div className={styles.postImageContainer}>
+            <img src={post.image} />
+          </div>
+        )}
         <div className={styles.postContent}>{post.content}</div>
 
         <div className={styles.postActions}>

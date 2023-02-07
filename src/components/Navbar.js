@@ -15,14 +15,13 @@ const Navbar = () => {
 
   return (
     <div className={styles.nav}>
-      <div className={styles.leftDiv}>
-        <Link to="/">
-          <img
-            alt="Site logo"
-            src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-          />
-        </Link>
-      </div>
+      <Link to="/">
+        <div className={styles.logo}>WhatsUp</div>
+        <img
+          className={styles.logoIcons}
+          src="https://cdn-icons-png.flaticon.com/128/99/99699.png"
+        />
+      </Link>
 
       {auth.user && <SearchContainer />}
 

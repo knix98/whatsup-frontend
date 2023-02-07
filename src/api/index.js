@@ -55,19 +55,47 @@ const customFetch = async (url, { body, ...customConfig }) => {
   }
 };
 
-export const getPosts = (limit) => {
-  return customFetch(API_URLS.posts(limit), {
+//axiosFetch wud be used for posting multipart form only (for user image and post image)
+//because axios wud automatically calculate and add the boundary header required for sending a multipart formData
+const axiosFetch = async (url, formData) => {
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+
+  const token = window.sessionStorage.getItem(SESSIONSTORAGE_TOKEN_KEY);
+  if (token) {
+    //if token exists in sessionStorage, then add it to the headers
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  try {
+    const response = await axios.post(url, formData, config);
+    const data = response.data; //axios response is already in json
+
+    if (data.success) {
+      return {
+        data: data.data,
+        success: true,
+      };
+    }
+
+    throw new Error(data.message); //if data.success was false
+  } catch (error) {
+    console.error("error");
+    return {
+      message: error.message,
+      success: false,
+    };
+  }
+};
+
+export const getPosts = () => {
+  return customFetch(API_URLS.posts(), {
     method: "GET",
   });
 };
-// export const getPosts = (page = 1, limit = 5) => {
-//   return customFetch(
-//     "https://codeial.codingninjas.com:8000/api/v2/posts?page=1&limit=5",
-//     {
-//       method: "GET",
-//     }
-//   );
-// };
 
 export const login = (email, password) => {
   return customFetch(API_URLS.login(), {
@@ -90,38 +118,8 @@ export const editProfile = (userId, name, password, confirmPassword) => {
   });
 };
 
-export const uploadPic = async (formData) => {
-  const config = {
-    headers: {
-      "content-type": "multipart/form-data",
-    },
-  };
-
-  const token = window.sessionStorage.getItem(SESSIONSTORAGE_TOKEN_KEY);
-  if (token) {
-    //if token exists in sessionStorage, then add it to the headers
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  try {
-    const response = await axios.post(API_URLS.uploadPic(), formData, config);
-    const data = response.data; //axios response is already in json
-
-    if (data.success) {
-      return {
-        data: data.data,
-        success: true,
-      };
-    }
-
-    throw new Error(data.message); //if data.success was false
-  } catch (error) {
-    console.error("error");
-    return {
-      message: error.message,
-      success: false,
-    };
-  }
+export const uploadPic = (formData) => {
+  return axiosFetch(API_URLS.uploadPic(), formData);
 };
 
 export const fetchUserProfile = (userId) => {
@@ -142,13 +140,8 @@ export const removeFriend = (userId) => {
   });
 };
 
-export const addPost = (content) => {
-  return customFetch(API_URLS.createPost(), {
-    method: "POST",
-    body: {
-      content,
-    },
-  });
+export const addPost = (formData) => {
+  return axiosFetch(API_URLS.createPost(), formData);
 };
 
 export const deletePost = (postId) => {
