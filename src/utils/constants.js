@@ -1,4 +1,4 @@
-const API_ROOT = "";
+const API_ROOT = process.env.API_ROOT;
 
 // all the values below are in a functional form, so that some values(required by the url) could be passed as arguments
 export const API_URLS = {
