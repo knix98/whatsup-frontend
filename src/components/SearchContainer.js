@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import styles from "../styles/navbar.module.css";
 import { searchUsers } from "../api";
+import { API_ROOT } from "../utils";
 
 const SearchContainer = () => {
   const [results, setResults] = useState([]);
@@ -61,7 +62,7 @@ const SearchContainer = () => {
                     <img
                       src={
                         user.image
-                          ? user.image
+                          ? `${API_ROOT}${user.image}`
                           : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
                       }
                     />

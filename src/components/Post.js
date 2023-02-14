@@ -9,6 +9,7 @@ import { Comment } from "./index";
 import styles from "../styles/home.module.css";
 import { usePosts, useAuth } from "../hooks";
 import { createComment, toggleLike, deletePost } from "../api";
+import { API_ROOT } from "../utils";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -80,7 +81,7 @@ const Post = ({ post }) => {
           <img
             src={
               post.user.image
-                ? post.user.image
+                ? `${API_ROOT}${post.user.image}`
                 : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
             }
             alt="user-pic"
@@ -103,7 +104,7 @@ const Post = ({ post }) => {
         </div>
         {post.image && (
           <div className={styles.postImageContainer}>
-            <img src={post.image} />
+            <img src={`${API_ROOT}${post.image}`} />
           </div>
         )}
         <div className={styles.postContent}>{post.content}</div>

@@ -6,6 +6,7 @@ import { Loader } from "../components";
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
 import { addFriend, removeFriend, fetchUserProfile } from "../api";
+import { API_ROOT } from "../utils";
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -100,7 +101,7 @@ const UserProfile = () => {
         <img
           src={
             user.image
-              ? user.image
+              ? `${API_ROOT}${user.image}`
               : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
           }
           alt="Profile pic"

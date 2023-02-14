@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 
 import styles from "../styles/settings.module.css";
 import { useAuth } from "../hooks";
+import { API_ROOT } from "../utils";
 
 const Settings = () => {
   const auth = useAuth();
@@ -86,7 +87,7 @@ const Settings = () => {
         <img
           src={
             auth.user.image
-              ? auth.user.image
+              ? `${API_ROOT}${auth.user.image}`
               : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
           }
           alt="Profile pic"

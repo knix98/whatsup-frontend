@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import styles from "../styles/home.module.css";
+import { API_ROOT } from "../utils";
 
 const FriendsList = ({ friend }) => {
   return (
@@ -16,7 +17,7 @@ const FriendsList = ({ friend }) => {
           <img
             src={
               friend.image
-                ? friend.image
+                ? `${API_ROOT}${friend.image}`
                 : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
             }
             alt="Friend pic"

@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import styles from "../styles/navbar.module.css";
 import { useAuth } from "../hooks";
 import SearchContainer from "./SearchContainer";
+import { API_ROOT } from "../utils";
 
 const Navbar = () => {
   const auth = useAuth();
@@ -33,7 +34,7 @@ const Navbar = () => {
               <img
                 src={
                   auth.user.image
-                    ? auth.user.image
+                    ? `${API_ROOT}${auth.user.image}`
                     : "https://cdn-icons-png.flaticon.com/128/3893/3893170.png"
                 }
                 alt="User image"
